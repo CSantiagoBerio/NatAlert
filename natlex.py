@@ -1,6 +1,6 @@
 from ply.lex import *
 reserved = []
-tokens = ['IDENTIFIER', 'NUMBER', 'CHAR', 'DECLARATION', 'METHOD'] + reserved
+tokens = ['IDENTIFIER', 'NUMBER', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE'] + reserved
 
 
 digit = r'[0-9]'
@@ -12,15 +12,18 @@ identifier = r'' + character + r'(' + character + r'|' + number + r')*'
 declaration = r'' + identifier + r'= (' + number + r'|' + character + r')* ;'
 method = identifier + r'[(]' + r'[)]'
 
-
-@TOKEN(declaration)
-def t_DECLARATION(t):
-    return t
+t_EQUAL = r'='
+t_ENDLINE = r';'
 
 
-@TOKEN(method)
-def t_METHOD(t):
-    return t
+# @TOKEN(declaration)
+# def t_DECLARATION(t):
+#     return t
+
+
+# @TOKEN(method)
+# def t_METHOD(t):
+#     return t
 
 
 @TOKEN(identifier)
@@ -44,8 +47,8 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-lexer = lex()
-lexer.input('email()')
+lexer = lex(debug=0)
+lexer.input('12')
 while True:
     tok = lexer.token()
     if not tok:
