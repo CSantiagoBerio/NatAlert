@@ -8,8 +8,12 @@ def p_declaration(p):
 
 def p_error(p):
     print("Syntax error in input!")
+#HAy que a~adir estos como metodos de parser
+##,'COORDINATES','CATASTROPHE', 'CATEGORY'
+#CADA toquen tiene q tener su def expression
 
-
+def p_category(p):
+    ''''''
 parser = yacc()
 
 # while True:
