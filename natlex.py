@@ -3,8 +3,9 @@
 from ply.lex import *
 
 reserved = {'if':'IF' ,'then':'THEN','then':'THEN','else':'ELSE','while':'WHILE','for':'FOR','catastrophe':'CATASTROPHE'}
-tokens = ['IDENTIFIER', 'NUMBER', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE'] + reserved.values()
 
+tokens = ['IDENTIFIER', 'NUMBER', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE'] + reserved.values()
+literals = "+-/*}{[]()"                                                 #This are literal characters the lexer interprets them as they are
 digit = r'[0-9]'
 number = r'[0 | 1-9][0-9]*'
 character = r'[a-zA-Z]'
@@ -49,10 +50,53 @@ def t_error(t):
 def t_newLine(t):
     r' \n+'
     t.lexer.lineno+=len(t.value)
-
+#****************definition of literals************************************************************
+def t_lbrace(t):
+    r'\{'
+    t.type='{'
+    return t
+def t_rbrace(t):
+    r'\}'
+    t.type = '}'
+    return t
+def t_lparen(t):
+    r'\('
+    t.type = '('
+    return t
+def t_rparen(t):
+    r'\)'
+    t.type = ')'
+    return t
+def t_lbox(t):
+    r'\['
+    t.type = '['
+    return t
+def t_rbox(t):
+    r'\]'
+    t.type = ']'
+    return t
+def t_mult(t):
+    r'\*'
+    t.type = '*'
+    return t
+def t_res(t):
+    r'\-'
+    t.type = '-'
+    return t
+def t_sum(t):
+    r'\+'
+    t.type = '+'
+    return t
+def t_div(t):
+    r'\/'
+    t.type = '/'
+    return t
+#**********************************************************************************************
 def t_COMMENT(t):               #definition of a comment, it will not return anything when it reads a #___
     r'\#.*'
     pass
+
+#*****************Debuging***************************************************************************
 
 lexer = lex(debug=0)
 
