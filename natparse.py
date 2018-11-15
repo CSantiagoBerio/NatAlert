@@ -16,8 +16,8 @@ def p_factor_number(p):
     p[0] = p[1]
 
 def p_declaration(p):
-    '''declaration : IDENTIFIER EQUAL NUMBER ENDLINE'''
-    names[p[0]] = p[3]
+    '''declaration : LET IDENTIFIER EQUAL expression'''
+    names[p[0]] = p[4]
 
 def p_expression_term(p):
     '''expression : term'''
@@ -30,9 +30,14 @@ def p_expression_declaration(p):
 def p_expression_method(p):
     '''expression : method'''
     p[0] = p[1]
-# def p_expression_cond(p):
-#     '''expression : "if" expression "then" expression "else" expression'''
-#     p[1] = "if" p[3] "then" [p5] "else" p[7]
+
+def p_expression_cond(p):
+    '''expression : IF expression THEN expression ELSE expression'''
+    if p[3]:
+        p[0] = p[4]
+    else:
+        if p[6] is not None:
+            p[0] = p[6]
 
 def p_error(p):
     print("Syntax error in input!")
