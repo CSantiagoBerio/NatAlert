@@ -7,12 +7,14 @@ import pyrebase
 
 
 class UIClass(QDialog):
+    """ Global variables for initializing the firebase database """
     global firebase
     global user
     global db
 
     def __init__(self):
         super(UIClass, self).__init__()
+        """" Loads the .ui template for the UI Design """
         loadUi('event-handler.ui', self)
         self.settings = {
             'Title': 'Event Box',
@@ -23,9 +25,11 @@ class UIClass(QDialog):
         self.initUI(self.settings)
         self.init_DB()
 
+    """ Method to set the text that will be displayed in the UI """
     def initUI(self, settings):
         if settings['Title'] and settings['Event'] and settings['Location'] and settings['SendTo']:
             self.Title.setText(settings['Title'])
+            """ Initializes all the components of the UI template"""
             self.eventComboBox.setEditable(False)
             self.locationBox.setEditable(False)
             self.sendToBox.setEditable(False)
@@ -48,7 +52,7 @@ class UIClass(QDialog):
             for sendTo in settings['SendTo']:
                 self.sendToBox.addItem(sendTo)
 
-            # self.notificationButton.clicked.connect(self.submitData())
+            # Checks if the submit button is clicked, if clicked calls the submiData() function
             if self.notificationButton.isChecked():
                 self.notificationButton.clicked.connect(lambda: self.submitData())
 
@@ -59,9 +63,7 @@ class UIClass(QDialog):
         else:
             print('Incorrect Dictionary Format')
 
-    """
-    Aqui esta la funcion que hace el submit al database, en print(str(a)), a es el string que se va a submit al database
-    """
+    """ Submits the data selected in the UI, to the database using a dictionary"""
     def submitData(self):
         print(str(self.eventComboBox.currentText()))
         print(str(self.locationBox.currentText()))
@@ -74,13 +76,14 @@ class UIClass(QDialog):
             'Employees': ['fernan@upr.edu', 'raul@upr.edu', 'alejandra@upr.edu']
         }
         print(data)
-        test = db.child('NatAlert').push(data)
-        if test:
-            print(test)
+        response = db.child('NatAlert').push(data)
+        if response:
+            print(response)
             global messageBox
             messageBox = QMessageBox.information(self, 'Success', 'Notification Sent Successfully!!')
             print(db.child('NatAlert').get().val())
 
+    """" Initializes Database """
     def init_DB(self):
         config = {
             'apiKey': "AIzaSyAcIg6EsfC5EKCF-thwhiOFO1XNDkFJDDQ",
