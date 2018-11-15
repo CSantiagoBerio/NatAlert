@@ -80,8 +80,6 @@ class UIClass(QDialog):
             global messageBox
             messageBox = QMessageBox.information(self, 'Success', 'Notification Sent Successfully!!')
             print(db.child('NatAlert').get().val())
-            # alertWindow = loadUi('alert.ui')
-            # alertWindow.show()
 
 
 
