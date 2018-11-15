@@ -57,11 +57,24 @@ class UIClass(QDialog):
         else:
             print('Incorrect Dictionary Format')
 
+    """
+    Aqui esta la funcion que hace el submit al database, en print(str(a)), a es el string que se va a submit al database
+    """
     def submitData(self):
         print(str(self.eventComboBox.currentText()))
         print(str(self.locationBox.currentText()))
         print(str(self.sendToBox.currentText()))
         print(str(self.commentBox.toPlainText()))
+        data = {
+            'Event': self.eventComboBox.currentText(),
+            'Location': self.locationBox.currentText(),
+            'Data': self.commentBox.toPlainText(),
+            'Employees': ['fernan@upr.edu', 'raul@upr.edu', 'alejandra@upr.edu']
+        }
+        print(data)
+        firebase.child('NatAlert').set(data)
+
+
 
     def init_DB(self):
         config = {
@@ -74,7 +87,7 @@ class UIClass(QDialog):
 
          }
         global firebase
-        firebase = pyrebase.initialize_app(config)
+        firebase = pyrebase.initialize_app(config).database()
 
 
 if __name__ == '__main__':
