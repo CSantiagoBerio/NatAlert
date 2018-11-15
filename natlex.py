@@ -18,16 +18,17 @@ reserved = {'if':'IF' ,
             'initUI' : 'INITUI',
             'initDB' : 'INITDB'}
 
-tokens = ['IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE','COMMA', 'QUOTE', 'DOT'] + list(reserved.values())
+tokens = ['IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE','COMMA', 'QUOTE', 'DOT',
+          'LParen', 'RParen'] + list(reserved.values())
 
-literals = "+-/*}{[]()"                                                                          #This are literal characters the lexer interprets them as they are
+#literals = "+-/*}{[]()"                                                                          #This are literal characters the lexer interprets them as they are
 
 digit = r'[0-9]'
 number = r'[0 | 1-9][0-9]*'
 character = r'[a-zA-Z]'
 double = r'[-+]?[0-9]+(\.([0-9]+)?([eE][-+]?[0-9]+)?|[eE][-+]?[0-9]+)'
-lefparen = r'('
-rigparen = r')'
+#lefparen = r'('
+#rigparen = r')'
 identifier = r'' + character + r'(' + character + r'|' + number + r')*'
 declaration = r'' + identifier + r'= (' + number + r'|' + character + r')* ;'
 method = identifier + r'[(]' + r'[)]'
@@ -37,6 +38,8 @@ t_ENDLINE = r';'
 t_COMMA = r','
 t_QUOTE = r'"'
 t_DOT = r'.'
+t_LParen = r'\('
+t_RParen = r'\)'
 
 reserved_words_map = { }
 for r in reserved:
@@ -92,14 +95,14 @@ def t_rbrace(t):
     r'\}'
     t.type = '}'
     return t
-def t_lparen(t):
-    r'\('
-    t.type = '('
-    return t
-def t_rparen(t):
-    r'\)'
-    t.type = ')'
-    return t
+# def t_lparen(t):
+#     r'\('
+#     t.type = '('
+#     return t
+# def t_rparen(t):
+#     r'\)'
+#     t.type = ')'
+#     return t
 def t_lbox(t):
     r'\['
     t.type = '['

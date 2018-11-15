@@ -3,70 +3,177 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     CHAR
+    COMMA
+    COMMENT
+    CREATE
     DECLARATION
+    DOT
+    DOUBLE
+    ELSE
+    ENDLINE
+    EQUAL
+    EVENT
+    FOR
+    GET
+    IDENTIFIER
+    IF
+    LET
+    LOCATION
     METHOD
+    NOTIFY
+    SENDTO
+    SET
+    THEN
+    TYPE
+    WHILE
 
 Grammar
 
-Rule 0     S' -> declaration
-Rule 1     declaration -> IDENTIFIER EQUAL NUMBER ENDLINE
+Rule 0     S' -> expression
+Rule 1     expression -> NUMBER
+Rule 2     expression -> QUOTE expression QUOTE
+Rule 3     expression -> INITUI LParen RParen
+Rule 4     expression -> INITDB LParen RParen
 
 Terminals, with rules where they appear
 
 CHAR                 : 
+COMMA                : 
+COMMENT              : 
+CREATE               : 
 DECLARATION          : 
-ENDLINE              : 1
-EQUAL                : 1
-IDENTIFIER           : 1
+DOT                  : 
+DOUBLE               : 
+ELSE                 : 
+ENDLINE              : 
+EQUAL                : 
+EVENT                : 
+FOR                  : 
+GET                  : 
+IDENTIFIER           : 
+IF                   : 
+INITDB               : 4
+INITUI               : 3
+LET                  : 
+LOCATION             : 
+LParen               : 3 4
 METHOD               : 
+NOTIFY               : 
 NUMBER               : 1
+QUOTE                : 2 2
+RParen               : 3 4
+SENDTO               : 
+SET                  : 
+THEN                 : 
+TYPE                 : 
+WHILE                : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-declaration          : 0
+expression           : 2 0
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . declaration
-    (1) declaration -> . IDENTIFIER EQUAL NUMBER ENDLINE
+    (0) S' -> . expression
+    (1) expression -> . NUMBER
+    (2) expression -> . QUOTE expression QUOTE
+    (3) expression -> . INITUI LParen RParen
+    (4) expression -> . INITDB LParen RParen
 
-    IDENTIFIER      shift and go to state 2
+    NUMBER          shift and go to state 2
+    QUOTE           shift and go to state 3
+    INITUI          shift and go to state 4
+    INITDB          shift and go to state 5
 
-    declaration                    shift and go to state 1
+    expression                     shift and go to state 1
 
 state 1
 
-    (0) S' -> declaration .
+    (0) S' -> expression .
 
 
 
 state 2
 
-    (1) declaration -> IDENTIFIER . EQUAL NUMBER ENDLINE
+    (1) expression -> NUMBER .
 
-    EQUAL           shift and go to state 3
+    $end            reduce using rule 1 (expression -> NUMBER .)
+    QUOTE           reduce using rule 1 (expression -> NUMBER .)
 
 
 state 3
 
-    (1) declaration -> IDENTIFIER EQUAL . NUMBER ENDLINE
+    (2) expression -> QUOTE . expression QUOTE
+    (1) expression -> . NUMBER
+    (2) expression -> . QUOTE expression QUOTE
+    (3) expression -> . INITUI LParen RParen
+    (4) expression -> . INITDB LParen RParen
 
-    NUMBER          shift and go to state 4
+    NUMBER          shift and go to state 2
+    QUOTE           shift and go to state 3
+    INITUI          shift and go to state 4
+    INITDB          shift and go to state 5
 
+    expression                     shift and go to state 6
 
 state 4
 
-    (1) declaration -> IDENTIFIER EQUAL NUMBER . ENDLINE
+    (3) expression -> INITUI . LParen RParen
 
-    ENDLINE         shift and go to state 5
+    LParen          shift and go to state 7
 
 
 state 5
 
-    (1) declaration -> IDENTIFIER EQUAL NUMBER ENDLINE .
+    (4) expression -> INITDB . LParen RParen
 
-    $end            reduce using rule 1 (declaration -> IDENTIFIER EQUAL NUMBER ENDLINE .)
+    LParen          shift and go to state 8
+
+
+state 6
+
+    (2) expression -> QUOTE expression . QUOTE
+
+    QUOTE           shift and go to state 9
+
+
+state 7
+
+    (3) expression -> INITUI LParen . RParen
+
+    RParen          shift and go to state 10
+
+
+state 8
+
+    (4) expression -> INITDB LParen . RParen
+
+    RParen          shift and go to state 11
+
+
+state 9
+
+    (2) expression -> QUOTE expression QUOTE .
+
+    $end            reduce using rule 2 (expression -> QUOTE expression QUOTE .)
+    QUOTE           reduce using rule 2 (expression -> QUOTE expression QUOTE .)
+
+
+state 10
+
+    (3) expression -> INITUI LParen RParen .
+
+    $end            reduce using rule 3 (expression -> INITUI LParen RParen .)
+    QUOTE           reduce using rule 3 (expression -> INITUI LParen RParen .)
+
+
+state 11
+
+    (4) expression -> INITDB LParen RParen .
+
+    $end            reduce using rule 4 (expression -> INITDB LParen RParen .)
+    QUOTE           reduce using rule 4 (expression -> INITDB LParen RParen .)
 

@@ -2,7 +2,7 @@ from ply.yacc import *
 from natlex import tokens
 
 #import Tools
-from UI.createUI import *
+from UI import createUI
 
 names = {}
 
@@ -14,23 +14,21 @@ def p_expression_string(p):
     '''expression : QUOTE expression QUOTE'''
     p[0] = p[2]
 
-def p_create_event(p):
-    '''expression : CREATE EVENT lefparen TYPE EQUAL expression COMMA LOCATION EQUAL expression COMMA
-    SENDTO EQUAL expression'''
+# def p_create_event(p):
+#     '''expression : CREATE EVENT lefparen TYPE EQUAL expression COMMA LOCATION EQUAL expression COMMA
+#     SENDTO EQUAL expression'''
 
-def p_declaration_expression(p):
-    '''declaration : LET identifier EQUAL expression'''
-    names[p[1]] = p[3]
+# def p_declaration_expression(p):
+#     '''declaration : LET identifier EQUAL expression'''
+#     names[p[1]] = p[3]
 
 def p_initUI(p):
-    '''expression : INITUI lefparen expression rigparen'''
-    global ui
-    ui = UIClass.UIClass()
-    ui.initUI()
+    '''expression : INITUI LParen RParen'''
+    createUI.start_ui()
 
 def p_initDB(p):
-    '''expression : INITDB lefparen expression rigparen'''
-    ui.initDb()
+    '''expression : INITDB LParen RParen'''
+    createUI.init_DB()
 
 #-------------------- Currently not in use ------------
 # def p_declaration_event(p):
@@ -73,6 +71,7 @@ def p_error(p):
 
 parser = yacc()
 
+
 # while True:
 #     try:
 #         s = 'chris12 = 0;'
@@ -80,6 +79,6 @@ parser = yacc()
 #         break
 #     if not s:
 #         continue
-s = 'initUI("5")'
+s = 'initUI()'
 result = parser.parse(s)
 print(result)

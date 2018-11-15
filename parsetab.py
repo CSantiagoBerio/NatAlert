@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'CHAR DECLARATION ENDLINE EQUAL IDENTIFIER METHOD NUMBERdeclaration : IDENTIFIER EQUAL NUMBER ENDLINE'
+_lr_signature = 'CHAR COMMA COMMENT CREATE DECLARATION DOT DOUBLE ELSE ENDLINE EQUAL EVENT FOR GET IDENTIFIER IF INITDB INITUI LET LOCATION LParen METHOD NOTIFY NUMBER QUOTE RParen SENDTO SET THEN TYPE WHILEexpression : NUMBERexpression : QUOTE expression QUOTEexpression : INITUI LParen RParenexpression : INITDB LParen RParen'
     
-_lr_action_items = {'IDENTIFIER':([0,],[2,]),'$end':([1,5,],[0,-1,]),'EQUAL':([2,],[3,]),'NUMBER':([3,],[4,]),'ENDLINE':([4,],[5,]),}
+_lr_action_items = {'NUMBER':([0,3,],[2,2,]),'QUOTE':([0,2,3,6,9,10,11,],[3,-1,3,9,-2,-3,-4,]),'INITUI':([0,3,],[4,4,]),'INITDB':([0,3,],[5,5,]),'$end':([1,2,9,10,11,],[0,-1,-2,-3,-4,]),'LParen':([4,5,],[7,8,]),'RParen':([7,8,],[10,11,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'declaration':([0,],[1,]),}
+_lr_goto_items = {'expression':([0,3,],[1,6,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,6 +26,9 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> declaration","S'",1,None,None,None),
-  ('declaration -> IDENTIFIER EQUAL NUMBER ENDLINE','declaration',4,'p_declaration','natparse.py',6),
+  ("S' -> expression","S'",1,None,None,None),
+  ('expression -> NUMBER','expression',1,'p_expression_number','natparse.py',10),
+  ('expression -> QUOTE expression QUOTE','expression',3,'p_expression_string','natparse.py',14),
+  ('expression -> INITUI LParen RParen','expression',3,'p_initUI','natparse.py',26),
+  ('expression -> INITDB LParen RParen','expression',3,'p_initDB','natparse.py',30),
 ]
