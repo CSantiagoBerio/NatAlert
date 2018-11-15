@@ -1,6 +1,5 @@
 class Event:
-
-    def _init_(self):
+    def __init__(self):
         self.type = ""
         self.location = ""
         self.sendto = []
@@ -11,6 +10,7 @@ class Event:
         self.location = location
         self.sendto = sendto
         self.comment = comment
+        return {'Event': self.type, 'Location': self.location, 'SendTo': self.sendto, 'Data': self.comment}
 
     def settype(self, type):
         self.type = type

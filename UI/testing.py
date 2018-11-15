@@ -1,5 +1,5 @@
 #!/usr/bin/env/python3
-from UI.createUI2 import UI
+from UI.createUI import UIClass
 
 settings = {
     'Title': 'Aloha',
