@@ -3,9 +3,12 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
+import pyrebase
+
 
 
 class UIClass(QDialog):
+    firebase
     def __init__(self):
         super(UIClass, self).__init__()
         loadUi('event-handler.ui', self)
@@ -16,6 +19,7 @@ class UIClass(QDialog):
             'SendTo': ['hi', 'hi']
         }
         self.initUI(self.settings)
+        self.init_DB()
 
     def initUI(self, settings):
         if settings['Title'] and settings['Event'] and settings['Location'] and settings['SendTo']:
@@ -54,7 +58,18 @@ class UIClass(QDialog):
         window = UIClass()
         sys.exit(app.exec_())
 
+    def init_DB(self):
+        config = {
+            'apiKey': "AIzaSyAcIg6EsfC5EKCF-thwhiOFO1XNDkFJDDQ",
+            'authDomain': "natalert-e328e.firebaseapp.com",
+            'databaseURL': "https://natalert-e328e.firebaseio.com",
+            'projectId': "natalert-e328e",
+            'storageBucket': "natalert-e328e.appspot.com",
+            'messagingSenderId': "250353217129"
 
+         }
+        global firebase
+        firebase = pyrebase.initialize_app(config)
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = UIClass()

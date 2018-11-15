@@ -1,17 +1,9 @@
 from UI.createUI import UIClass
-import pyrebase
 
 
 class Main:
     def __init__(self):
-        #config = {
-        #    "apiKey": "apiKey",
-        #    "authDomain": "projectId.firebaseapp.com",
-        #    "databaseURL": "https://databaseName.firebaseio.com",
-        #    "storageBucket": "projectId.appspot.com"
-        #}
 
-        #firebase = pyrebase.initialize_app(config)
         super(Main, self).__init__()
         self.settings = {
             'Title': 'From Main',
