@@ -111,6 +111,7 @@ class UIClass(QDialog):
         db = firebase.database()
         print(user['idToken'])
 
+
 def start_ui():
     app = QApplication(sys.argv)
     window = UIClass().initUI()
