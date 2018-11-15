@@ -20,7 +20,12 @@ class UIClass(QDialog):
             'Title': 'Event Box',
             'Event': ['Fire', 'Tsunami', 'Shooting'],
             'Location': ['Luchetti', 'Stefani'],
-            'SendTo': ['All', 'None']
+            'SendTo': [
+                ['fernan@upr.edu', 'raul@upr.edu', 'alejandra@upredu'],
+                ['christian@upr.edu', 'raul@upr.edu'],
+                ['raul@upr.edu', 'alejandra@upr.edu'],
+                ['fernan@upr.edu', 'christian@upr.edu']
+            ]
         }
         self.initUI(self.settings)
         self.init_DB()
@@ -50,7 +55,7 @@ class UIClass(QDialog):
 
             # Adds objects to the Dropdown Menu for the Send To
             for sendTo in settings['SendTo']:
-                self.sendToBox.addItem(sendTo)
+                self.sendToBox.addItem(str(sendTo))
 
             # Checks if the submit button is clicked, if clicked calls the submiData() function
             if self.notificationButton.isChecked():
@@ -69,11 +74,12 @@ class UIClass(QDialog):
         print(str(self.locationBox.currentText()))
         print(str(self.sendToBox.currentText()))
         print(str(self.commentBox.toPlainText()))
+        employees = self.sendToBox.currentText().split(',')
         data = {
             'Event': self.eventComboBox.currentText(),
             'Location': self.locationBox.currentText(),
             'Data': self.commentBox.toPlainText(),
-            'Employees': ['fernan@upr.edu', 'raul@upr.edu', 'alejandra@upr.edu']
+            'Employees': employees
         }
         print(data)
         response = db.child('NatAlert').push(data)
