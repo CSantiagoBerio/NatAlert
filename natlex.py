@@ -15,7 +15,7 @@ reserved = {'if':'IF' ,
             'location' : 'LOCATION',
             'sendto' : 'SENDTO'}
 
-tokens = ['IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE','COMMA'] + list(reserved.values())
+tokens = ['IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE','COMMA', 'QUOTE', 'DOT'] + list(reserved.values())
 
 literals = "+-/*}{[]()"                                                                          #This are literal characters the lexer interprets them as they are
 
@@ -32,6 +32,8 @@ method = identifier + r'[(]' + r'[)]'
 t_EQUAL = r'='
 t_ENDLINE = r';'
 t_COMMA = r','
+t_QUOTE = r'"'
+t_DOT = r'.'
 
 reserved_words_map = { }
 for r in reserved:
