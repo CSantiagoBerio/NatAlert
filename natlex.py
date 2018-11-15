@@ -2,12 +2,18 @@ from ply.lex import *
 
 reserved = {'if':'IF' ,
             'then':'THEN',
-            'then':'THEN',
             'else':'ELSE',
             'while':'WHILE',
             'for':'FOR',
-            'catastrophe':'CATASTROPHE',
-            'create':'CREATE'}
+            'event':'EVENT',
+            'create':'CREATE',
+            'let' : 'LET',
+            'set' : 'SET',
+            'get' : 'GET',
+            'notify' : 'NOTIFY',
+            'type' : 'TYPE',
+            'location' : 'LOCATION',
+            'sendto' : 'SENDTO'}
 
 tokens = ['IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE','COMMA'] + list(reserved.values())
 
