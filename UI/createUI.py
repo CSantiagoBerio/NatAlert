@@ -32,6 +32,7 @@ class UIClass(QDialog):
 
     """ Method to set the text that will be displayed in the UI """
     def initUI(self, settings):
+
         if settings['Title'] and settings['Event'] and settings['Location'] and settings['SendTo']:
             self.Title.setText(settings['Title'])
             """ Initializes all the components of the UI template"""
@@ -98,7 +99,7 @@ class UIClass(QDialog):
             'projectId': "natalert-e328e",
             'storageBucket': "natalert-e328e.appspot.com",
             'messagingSenderId': "250353217129",
-            "serviceAccount": "../natalert-e328e-firebase-adminsdk-9qkk7-cd5290dd8c.json"
+            "serviceAccount": "natalert-e328e-firebase-adminsdk-9qkk7-cd5290dd8c.json"
 
          }
         global firebase
@@ -110,6 +111,10 @@ class UIClass(QDialog):
         db = firebase.database()
         print(user['idToken'])
 
+def start_ui(settings):
+    app = QApplication(sys.argv)
+    window = UIClass().initUI(settings)
+    sys.exit(app.exec_())
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
