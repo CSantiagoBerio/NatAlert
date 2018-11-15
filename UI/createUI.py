@@ -6,11 +6,11 @@ from PyQt5.uic import loadUi
 import pyrebase
 
 
-
 class UIClass(QDialog):
     global firebase
     global user
     global db
+
     def __init__(self):
         super(UIClass, self).__init__()
         loadUi('event-handler.ui', self)
@@ -81,8 +81,6 @@ class UIClass(QDialog):
             messageBox = QMessageBox.information(self, 'Success', 'Notification Sent Successfully!!')
             print(db.child('NatAlert').get().val())
 
-
-
     def init_DB(self):
         config = {
             'apiKey': "AIzaSyAcIg6EsfC5EKCF-thwhiOFO1XNDkFJDDQ",
@@ -104,11 +102,7 @@ class UIClass(QDialog):
         print(user['idToken'])
 
 
-
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = UIClass()
-    # window.setWindowTitle('Eventr Box')
-    # window.show()
     sys.exit(app.exec_())
