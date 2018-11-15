@@ -83,11 +83,14 @@ class UIClass(QDialog):
             'databaseURL': "https://natalert-e328e.firebaseio.com",
             'projectId': "natalert-e328e",
             'storageBucket': "natalert-e328e.appspot.com",
-            'messagingSenderId': "250353217129"
+            'messagingSenderId': "250353217129",
+            "serviceAccount": "../natalert-e328e-firebase-adminsdk-9qkk7-cd5290dd8c.json"
 
          }
         global firebase
         firebase = pyrebase.initialize_app(config).database()
+
+
 
 
 if __name__ == '__main__':
