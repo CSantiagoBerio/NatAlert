@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTextEdit" name="comment_box">
+  <widget class="QTextEdit" name="commentBox">
    <property name="geometry">
     <rect>
      <x>60</x>

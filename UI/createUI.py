@@ -8,15 +8,15 @@ import pyrebase
 
 
 class UIClass(QDialog):
-    firebase
+    global firebase
     def __init__(self):
         super(UIClass, self).__init__()
         loadUi('event-handler.ui', self)
         self.settings = {
-            'Title': 'HI',
-            'Event': ['hi', 'hi', 'hi'],
-            'Location': ['hi', 'hi'],
-            'SendTo': ['hi', 'hi']
+            'Title': 'Event Box',
+            'Event': ['Fire', 'Tsunami', 'Shooting'],
+            'Location': ['Luchetti', 'Stefani'],
+            'SendTo': ['All', 'None']
         }
         self.initUI(self.settings)
         self.init_DB()
@@ -27,6 +27,8 @@ class UIClass(QDialog):
             self.eventComboBox.setEditable(False)
             self.locationBox.setEditable(False)
             self.sendToBox.setEditable(False)
+            self.notificationButton.setCheckable(True)
+            self.notificationButton.toggle()
             if len(settings) is 5:
                 self.notificationButton.setText(settings['NotificationText'])
             else:
@@ -44,6 +46,10 @@ class UIClass(QDialog):
             for sendTo in settings['SendTo']:
                 self.sendToBox.addItem(sendTo)
 
+            # self.notificationButton.clicked.connect(self.submitData())
+            if self.notificationButton.isChecked():
+                self.notificationButton.clicked.connect(lambda: self.submitData())
+
             self.setWindowTitle('Event Box')
             self.show()
             # self.QApplication(sys.argv)
@@ -51,12 +57,11 @@ class UIClass(QDialog):
         else:
             print('Incorrect Dictionary Format')
 
-    def setSettings(self, settings):
-        self.settings = settings
-        self.initUI(settings)
-        app = QApplication(sys.argv)
-        window = UIClass()
-        sys.exit(app.exec_())
+    def submitData(self):
+        print(str(self.eventComboBox.currentText()))
+        print(str(self.locationBox.currentText()))
+        print(str(self.sendToBox.currentText()))
+        print(str(self.commentBox.toPlainText()))
 
     def init_DB(self):
         config = {
@@ -70,6 +75,8 @@ class UIClass(QDialog):
          }
         global firebase
         firebase = pyrebase.initialize_app(config)
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = UIClass()
