@@ -29,3 +29,10 @@ class Event:
 
     def getsendto(self):
         return self.sendto
+
+    def setcomment(self, comment):
+        self.comment = comment
+
+    def getcomment(self):
+        return self.comment
+

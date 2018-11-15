@@ -13,7 +13,10 @@ reserved = {'if':'IF' ,
             'notify' : 'NOTIFY',
             'type' : 'TYPE',
             'location' : 'LOCATION',
-            'sendto' : 'SENDTO'}
+            'sendto' : 'SENDTO',
+            'comment' : 'COMMENT',
+            'initUI' : 'INITUI',
+            'initDB' : 'INITDB'}
 
 tokens = ['IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'EQUAL', 'ENDLINE','COMMA', 'QUOTE', 'DOT'] + list(reserved.values())
 
@@ -132,8 +135,10 @@ lexer = lex(debug=0)
 #lexer.input('x=12')
 #lexer.input('hvhj')
 #lexer.input('23.5423545')
-lexer.input('create Catastrophe(){'
-            'let maria = new Storm()}')
+
+data = 'initUI()' \
+       'initDB()'
+lexer.input(data)
 while True:
     tok = lexer.token()
     if not tok:
