@@ -13,7 +13,7 @@ class Main:
         }
 
         #window = UIClass().initUI(self.settings)
-        createUI.start_ui(self.settings)
+        createUI.start_ui()
 
 
 if __name__ == '__main__':

@@ -27,35 +27,35 @@ class UIClass(QDialog):
                 ['fernan@upr.edu', 'christian@upr.edu']
             ]
         }
-        self.initUI(self.settings)
+        self.initUI()
         self.init_DB()
 
     """ Method to set the text that will be displayed in the UI """
-    def initUI(self, settings):
+    def initUI(self):
 
-        if settings['Title'] and settings['Event'] and settings['Location'] and settings['SendTo']:
-            self.Title.setText(settings['Title'])
+        if self.settings['Title'] and self.settings['Event'] and self.settings['Location'] and self.settings['SendTo']:
+            self.Title.setText(self.settings['Title'])
             """ Initializes all the components of the UI template"""
             self.eventComboBox.setEditable(False)
             self.locationBox.setEditable(False)
             self.sendToBox.setEditable(False)
             self.notificationButton.setCheckable(True)
             self.notificationButton.toggle()
-            if len(settings) is 5:
-                self.notificationButton.setText(settings['NotificationText'])
+            if len(self.settings) is 5:
+                self.notificationButton.setText(self.settings['NotificationText'])
             else:
                 self.notificationButton.setText('Submit')
 
             # Adds objects to the Dropdown Menu for Events
-            for event in settings['Event']:
+            for event in self.settings['Event']:
                 self.eventComboBox.addItem(event)
 
             # Adds objects to the Dropdown Menu for Locations
-            for location in settings['Location']:
+            for location in self.settings['Location']:
                 self.locationBox.addItem(location)
 
             # Adds objects to the Dropdown Menu for the Send To
-            for sendTo in settings['SendTo']:
+            for sendTo in self.settings['SendTo']:
                 self.sendToBox.addItem(str(sendTo))
 
             # Checks if the submit button is clicked, if clicked calls the submiData() function
@@ -111,9 +111,9 @@ class UIClass(QDialog):
         db = firebase.database()
         print(user['idToken'])
 
-def start_ui(settings):
+def start_ui():
     app = QApplication(sys.argv)
-    window = UIClass().initUI(settings)
+    window = UIClass().initUI()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
