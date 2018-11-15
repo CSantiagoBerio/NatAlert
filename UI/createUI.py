@@ -9,6 +9,8 @@ import pyrebase
 
 class UIClass(QDialog):
     global firebase
+    global user
+    global db
     def __init__(self):
         super(UIClass, self).__init__()
         loadUi('event-handler.ui', self)
@@ -72,7 +74,14 @@ class UIClass(QDialog):
             'Employees': ['fernan@upr.edu', 'raul@upr.edu', 'alejandra@upr.edu']
         }
         print(data)
-        firebase.child('NatAlert').set(data)
+        test = db.child('NatAlert').push(data)
+        if test:
+            print(test)
+            global messageBox
+            messageBox = QMessageBox.information(self, 'Success', 'Notification Sent Successfully!!')
+            print(db.child('NatAlert').get().val())
+            # alertWindow = loadUi('alert.ui')
+            # alertWindow.show()
 
 
 
@@ -88,7 +97,13 @@ class UIClass(QDialog):
 
          }
         global firebase
-        firebase = pyrebase.initialize_app(config).database()
+        firebase = pyrebase.initialize_app(config)
+        auth = firebase.auth()
+        global user
+        user = auth.sign_in_with_email_and_password('christian.santiago23@upr.edu', 'Machluan0212')
+        global db
+        db = firebase.database()
+        print(user['idToken'])
 
 
 
