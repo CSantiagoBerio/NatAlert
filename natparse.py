@@ -1,10 +1,38 @@
 from ply.yacc import *
 from natlex import tokens
 
+names = {}
+
+def p_coordinate(p):
+    '''coordinate : lefparen number comma number rigparen'''
+    p[0] = (p[2],p[4])
+
+def p_factor_expression(p):
+    '''factor : expression'''
+    p[0] = p[1]
+
+def p_factor_number(p):
+    '''factor : number'''
+    p[0] = p[1]
 
 def p_declaration(p):
     '''declaration : IDENTIFIER EQUAL NUMBER ENDLINE'''
+    names[p[0]] = p[3]
 
+def p_expression_term(p):
+    '''expression : term'''
+    p[0] = p[1]
+
+def p_expression_declaration(p):
+    '''expression : declaration'''
+    p[0] = p[1]
+
+def p_expression_method(p):
+    '''expression : method'''
+    p[0] = p[1]
+# def p_expression_cond(p):
+#     '''expression : "if" expression "then" expression "else" expression'''
+#     p[1] = "if" p[3] "then" [p5] "else" p[7]
 
 def p_error(p):
     print("Syntax error in input!")
