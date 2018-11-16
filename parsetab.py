@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'CHAR COMMA COMMENT CREATE DECLARATION DOT DOUBLE ELSE ENDLINE EQUAL EVENT FOR GET IDENTIFIER IF INITDB INITUI LET LOCATION LParen METHOD NOTIFY NUMBER QUOTE RParen SENDTO SET THEN TYPE WHILEexpression : NUMBERexpression : QUOTE expression QUOTEexpression : INITUI LParen RParenexpression : INITDB LParen RParen'
+_lr_signature = 'ASSIGN CHAR COMMA COMMENT CREATE DECLARATION DOT DOUBLE ELSE ENDLINE EVENT FOR GET IDENTIFIER IF INITDB INITUI LET LOCATION LParen METHOD NOTIFY NUMBER QUOTE RParen SENDTO SET THEN TYPE WHILEexpression : NUMBERexpression : QUOTE expression QUOTEdeclaration : LET IDENTIFIER ASSIGN expressionexpression : INITUI LParen RParenexpression : INITDB LParen RParen'
     
-_lr_action_items = {'NUMBER':([0,3,],[2,2,]),'QUOTE':([0,2,3,6,9,10,11,],[3,-1,3,9,-2,-3,-4,]),'INITUI':([0,3,],[4,4,]),'INITDB':([0,3,],[5,5,]),'$end':([1,2,9,10,11,],[0,-1,-2,-3,-4,]),'LParen':([4,5,],[7,8,]),'RParen':([7,8,],[10,11,]),}
+_lr_action_items = {'NUMBER':([0,3,],[2,2,]),'QUOTE':([0,2,3,6,9,10,11,],[3,-1,3,9,-2,-4,-5,]),'INITUI':([0,3,],[4,4,]),'INITDB':([0,3,],[5,5,]),'$end':([1,2,9,10,11,],[0,-1,-2,-4,-5,]),'LParen':([4,5,],[7,8,]),'RParen':([7,8,],[10,11,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -29,6 +29,7 @@ _lr_productions = [
   ("S' -> expression","S'",1,None,None,None),
   ('expression -> NUMBER','expression',1,'p_expression_number','natparse.py',10),
   ('expression -> QUOTE expression QUOTE','expression',3,'p_expression_string','natparse.py',14),
+  ('declaration -> LET IDENTIFIER ASSIGN expression','declaration',4,'p_declaration_expression','natparse.py',22),
   ('expression -> INITUI LParen RParen','expression',3,'p_initUI','natparse.py',26),
   ('expression -> INITDB LParen RParen','expression',3,'p_initDB','natparse.py',30),
 ]

@@ -11,13 +11,10 @@ Unused terminals:
     DOUBLE
     ELSE
     ENDLINE
-    EQUAL
     EVENT
     FOR
     GET
-    IDENTIFIER
     IF
-    LET
     LOCATION
     METHOD
     NOTIFY
@@ -32,11 +29,13 @@ Grammar
 Rule 0     S' -> expression
 Rule 1     expression -> NUMBER
 Rule 2     expression -> QUOTE expression QUOTE
-Rule 3     expression -> INITUI LParen RParen
-Rule 4     expression -> INITDB LParen RParen
+Rule 3     declaration -> LET IDENTIFIER ASSIGN expression
+Rule 4     expression -> INITUI LParen RParen
+Rule 5     expression -> INITDB LParen RParen
 
 Terminals, with rules where they appear
 
+ASSIGN               : 3
 CHAR                 : 
 COMMA                : 
 COMMENT              : 
@@ -46,22 +45,21 @@ DOT                  :
 DOUBLE               : 
 ELSE                 : 
 ENDLINE              : 
-EQUAL                : 
 EVENT                : 
 FOR                  : 
 GET                  : 
-IDENTIFIER           : 
+IDENTIFIER           : 3
 IF                   : 
-INITDB               : 4
-INITUI               : 3
-LET                  : 
+INITDB               : 5
+INITUI               : 4
+LET                  : 3
 LOCATION             : 
-LParen               : 3 4
+LParen               : 4 5
 METHOD               : 
 NOTIFY               : 
 NUMBER               : 1
 QUOTE                : 2 2
-RParen               : 3 4
+RParen               : 4 5
 SENDTO               : 
 SET                  : 
 THEN                 : 
@@ -71,7 +69,8 @@ error                :
 
 Nonterminals, with rules where they appear
 
-expression           : 2 0
+declaration          : 
+expression           : 2 3 0
 
 Parsing method: LALR
 
@@ -80,8 +79,8 @@ state 0
     (0) S' -> . expression
     (1) expression -> . NUMBER
     (2) expression -> . QUOTE expression QUOTE
-    (3) expression -> . INITUI LParen RParen
-    (4) expression -> . INITDB LParen RParen
+    (4) expression -> . INITUI LParen RParen
+    (5) expression -> . INITDB LParen RParen
 
     NUMBER          shift and go to state 2
     QUOTE           shift and go to state 3
@@ -109,8 +108,8 @@ state 3
     (2) expression -> QUOTE . expression QUOTE
     (1) expression -> . NUMBER
     (2) expression -> . QUOTE expression QUOTE
-    (3) expression -> . INITUI LParen RParen
-    (4) expression -> . INITDB LParen RParen
+    (4) expression -> . INITUI LParen RParen
+    (5) expression -> . INITDB LParen RParen
 
     NUMBER          shift and go to state 2
     QUOTE           shift and go to state 3
@@ -121,14 +120,14 @@ state 3
 
 state 4
 
-    (3) expression -> INITUI . LParen RParen
+    (4) expression -> INITUI . LParen RParen
 
     LParen          shift and go to state 7
 
 
 state 5
 
-    (4) expression -> INITDB . LParen RParen
+    (5) expression -> INITDB . LParen RParen
 
     LParen          shift and go to state 8
 
@@ -142,14 +141,14 @@ state 6
 
 state 7
 
-    (3) expression -> INITUI LParen . RParen
+    (4) expression -> INITUI LParen . RParen
 
     RParen          shift and go to state 10
 
 
 state 8
 
-    (4) expression -> INITDB LParen . RParen
+    (5) expression -> INITDB LParen . RParen
 
     RParen          shift and go to state 11
 
@@ -164,16 +163,16 @@ state 9
 
 state 10
 
-    (3) expression -> INITUI LParen RParen .
+    (4) expression -> INITUI LParen RParen .
 
-    $end            reduce using rule 3 (expression -> INITUI LParen RParen .)
-    QUOTE           reduce using rule 3 (expression -> INITUI LParen RParen .)
+    $end            reduce using rule 4 (expression -> INITUI LParen RParen .)
+    QUOTE           reduce using rule 4 (expression -> INITUI LParen RParen .)
 
 
 state 11
 
-    (4) expression -> INITDB LParen RParen .
+    (5) expression -> INITDB LParen RParen .
 
-    $end            reduce using rule 4 (expression -> INITDB LParen RParen .)
-    QUOTE           reduce using rule 4 (expression -> INITDB LParen RParen .)
+    $end            reduce using rule 5 (expression -> INITDB LParen RParen .)
+    QUOTE           reduce using rule 5 (expression -> INITDB LParen RParen .)
 

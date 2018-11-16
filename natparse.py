@@ -8,19 +8,19 @@ names = {}
 
 def p_expression_number(p):
     '''expression : NUMBER'''
-    p[0] = p[2]
+    p[0] = p[1]
 
 def p_expression_string(p):
     '''expression : QUOTE expression QUOTE'''
     p[0] = p[2]
 
+def p_declaration_expression(p):
+    '''declaration : LET IDENTIFIER ASSIGN expression'''
+    names[p[1]] = p[3]
+
 # def p_create_event(p):
 #     '''expression : CREATE EVENT lefparen TYPE EQUAL expression COMMA LOCATION EQUAL expression COMMA
 #     SENDTO EQUAL expression'''
-
-# def p_declaration_expression(p):
-#     '''declaration : LET identifier EQUAL expression'''
-#     names[p[1]] = p[3]
 
 def p_initUI(p):
     '''expression : INITUI LParen RParen'''
@@ -79,6 +79,8 @@ parser = yacc()
 #         break
 #     if not s:
 #         continue
+print("Testing Parser. It should open a gui.")
 s = 'initUI()'
+print("Input",s)
 result = parser.parse(s)
 print(result)
