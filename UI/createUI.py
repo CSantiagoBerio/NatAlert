@@ -17,6 +17,7 @@ class UIClass(QDialog):
         super(UIClass, self).__init__()
         """" Loads the .ui template for the UI Design """
         loadUi('event-handler.ui', self)
+        global settings
         settings = {
             'Title': 'Event Box',
             'Event': ['Fire', 'Tsunami', 'Shooting'],
