@@ -123,13 +123,11 @@ def set_settings(ui_settings):
     settings = ui_settings
     # UIClass().settings(ui_settings)
 
+
 def start_ui():
     app = QApplication(sys.argv)
     UIClass().initUI()
     sys.exit(app.exec_())
-
-
-
 
 
 if __name__ == '__main__':
