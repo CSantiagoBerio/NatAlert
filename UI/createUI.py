@@ -11,12 +11,13 @@ class UIClass(QDialog):
     global firebase
     global user
     global db
+    global settings
 
     def __init__(self):
         super(UIClass, self).__init__()
         """" Loads the .ui template for the UI Design """
         loadUi('event-handler.ui', self)
-        self.settings = {
+        settings = {
             'Title': 'Event Box',
             'Event': ['Fire', 'Tsunami', 'Shooting'],
             'Location': ['Luchetti', 'Stefani'],
@@ -33,29 +34,29 @@ class UIClass(QDialog):
     """ Method to set the text that will be displayed in the UI """
     def initUI(self):
 
-        if self.settings['Title'] and self.settings['Event'] and self.settings['Location'] and self.settings['SendTo']:
-            self.Title.setText(self.settings['Title'])
+        if settings['Title'] and settings['Event'] and settings['Location'] and settings['SendTo']:
+            self.Title.setText(settings['Title'])
             """ Initializes all the components of the UI template"""
             self.eventComboBox.setEditable(False)
             self.locationBox.setEditable(False)
             self.sendToBox.setEditable(False)
             self.notificationButton.setCheckable(True)
             self.notificationButton.toggle()
-            if len(self.settings) is 5:
-                self.notificationButton.setText(self.settings['NotificationText'])
+            if len(settings) is 5:
+                self.notificationButton.setText(settings['NotificationText'])
             else:
                 self.notificationButton.setText('Submit')
 
             # Adds objects to the Dropdown Menu for Events
-            for event in self.settings['Event']:
+            for event in settings['Event']:
                 self.eventComboBox.addItem(event)
 
             # Adds objects to the Dropdown Menu for Locations
-            for location in self.settings['Location']:
+            for location in settings['Location']:
                 self.locationBox.addItem(location)
 
             # Adds objects to the Dropdown Menu for the Send To
-            for sendTo in self.settings['SendTo']:
+            for sendTo in settings['SendTo']:
                 self.sendToBox.addItem(str(sendTo))
 
             # Checks if the submit button is clicked, if clicked calls the submiData() function
@@ -110,6 +111,12 @@ class UIClass(QDialog):
         global db
         db = firebase.database()
         print(user['idToken'])
+
+
+    def setSettings(self, ui_settings):
+        global settings
+        settings = ui_settings
+
 
 
 def start_ui():
