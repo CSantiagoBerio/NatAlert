@@ -118,11 +118,11 @@ class UIClass(QDialog):
         settings = ui_settings
 
 
-
 def start_ui():
     app = QApplication(sys.argv)
     window = UIClass().initUI()
     sys.exit(app.exec_())
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
