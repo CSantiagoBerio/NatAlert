@@ -10,10 +10,9 @@ global user
 global db
 global settings
 
+
 class UIClass(QDialog):
     """ Global variables for initializing the firebase database """
-
-
     def __init__(self):
         super(UIClass, self).__init__()
         """" Loads the .ui template for the UI Design """
@@ -126,7 +125,7 @@ def set_settings(ui_settings):
 
 def start_ui():
     app = QApplication(sys.argv)
-    window = UIClass().initUI()
+    UIClass().initUI()
     sys.exit(app.exec_())
 
 
