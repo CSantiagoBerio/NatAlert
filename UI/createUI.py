@@ -5,30 +5,30 @@ from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 import pyrebase
 
+global firebase
+global user
+global db
+global settings
+
 
 class UIClass(QDialog):
     """ Global variables for initializing the firebase database """
-    global firebase
-    global user
-    global db
-    global settings
-
     def __init__(self):
         super(UIClass, self).__init__()
         """" Loads the .ui template for the UI Design """
         loadUi('event-handler.ui', self)
         global settings
-        settings = {
-            'Title': 'Event Box',
-            'Event': ['Fire', 'Tsunami', 'Shooting'],
-            'Location': ['Luchetti', 'Stefani'],
-            'SendTo': [
-                ['fernan@upr.edu', 'raul@upr.edu', 'alejandra@upredu'],
-                ['christian@upr.edu', 'raul@upr.edu'],
-                ['raul@upr.edu', 'alejandra@upr.edu'],
-                ['fernan@upr.edu', 'christian@upr.edu']
-            ]
-        }
+        # settings = {
+        #     'Title': 'Event Box',
+        #     'Event': ['Fire', 'Tsunami', 'Shooting'],
+        #     'Location': ['Luchetti', 'Stefani'],
+        #     'SendTo': [
+        #         ['fernan@upr.edu', 'raul@upr.edu', 'alejandra@upredu'],
+        #         ['christian@upr.edu', 'raul@upr.edu'],
+        #         ['raul@upr.edu', 'alejandra@upr.edu'],
+        #         ['fernan@upr.edu', 'christian@upr.edu']
+        #     ]
+        # }
         self.initUI()
         self.init_DB()
 
@@ -113,15 +113,20 @@ class UIClass(QDialog):
         db = firebase.database()
         print(user['idToken'])
 
-
-    def setSettings(self, ui_settings):
+    def settings(self, ui_settings):
         global settings
         settings = ui_settings
 
 
+def set_settings(ui_settings):
+    global settings
+    settings = ui_settings
+    # UIClass().settings(ui_settings)
+
+
 def start_ui():
     app = QApplication(sys.argv)
-    window = UIClass().initUI()
+    UIClass().initUI()
     sys.exit(app.exec_())
 
 
