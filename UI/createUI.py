@@ -13,6 +13,7 @@ global settings
 
 class UIClass(QDialog):
     """ Global variables for initializing the firebase database """
+
     def __init__(self):
         super(UIClass, self).__init__()
         """" Loads the .ui template for the UI Design """
@@ -29,12 +30,13 @@ class UIClass(QDialog):
         #         ['fernan@upr.edu', 'christian@upr.edu']
         #     ]
         # }
-        self.initUI()
+        # self.initUI()
         self.init_DB()
 
     """ Method to set the text that will be displayed in the UI """
-    def initUI(self):
 
+    def initUI(self):
+        print(settings)
         if settings['Title'] and settings['Event'] and settings['Location'] and settings['SendTo']:
             self.Title.setText(settings['Title'])
             """ Initializes all the components of the UI template"""
@@ -72,6 +74,7 @@ class UIClass(QDialog):
             print('Incorrect Dictionary Format')
 
     """ Submits the data selected in the UI, to the database using a dictionary"""
+
     def submitData(self):
         print(str(self.eventComboBox.currentText()))
         print(str(self.locationBox.currentText()))
@@ -90,9 +93,10 @@ class UIClass(QDialog):
             print(response)
             global messageBox
             messageBox = QMessageBox.information(self, 'Success', 'Notification Sent Successfully!!')
-            print(db.child('NatAlert').get().val())
+            # print(db.child('NatAlert').get().val())
 
     """" Initializes Database """
+
     def init_DB(self):
         config = {
             'apiKey': "AIzaSyAcIg6EsfC5EKCF-thwhiOFO1XNDkFJDDQ",
@@ -103,7 +107,7 @@ class UIClass(QDialog):
             'messagingSenderId': "250353217129",
             "serviceAccount": "natalert-e328e-firebase-adminsdk-9qkk7-cd5290dd8c.json"
 
-         }
+        }
         global firebase
         firebase = pyrebase.initialize_app(config)
         auth = firebase.auth()
@@ -111,16 +115,36 @@ class UIClass(QDialog):
         user = auth.sign_in_with_email_and_password('christian.santiago23@upr.edu', 'Machluan0212')
         global db
         db = firebase.database()
-        print(user['idToken'])
+        # print(user['idToken'])
 
     def settings(self, ui_settings):
         global settings
         settings = ui_settings
 
 
+def parse(settings):
+    # print(settings)
+    title = custom_split(settings['Title'].split("\""))
+    events = custom_split(settings['Event'].split("\""))
+    locations = custom_split(settings['Location'].split("\""))
+    send_to = custom_split(settings['SendTo'].split("\""))
+    # print(title, events, locations, send_to)
+    return {'Title': title[0], 'Event': events, 'Location': locations, 'SendTo': send_to}
+
+
+def custom_split(arr):
+    arr2 = []
+    length = len(arr)
+    for x in range(length):
+        if x % 2 == 1:
+            arr2.append(arr[x])
+    return arr2
+
+
 def set_settings(ui_settings):
     global settings
-    settings = ui_settings
+    parsed_text = parse(ui_settings)
+    settings = parsed_text
     # UIClass().settings(ui_settings)
     print("DONE SETTINGS")
 
@@ -135,6 +159,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = UIClass()
     sys.exit(app.exec_())
+
 
 def init_db():
     print("DB initiated")
