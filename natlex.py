@@ -28,7 +28,7 @@ tokens = ['STRING','IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'MET
 
 #literals = "+-/*}{[]()"              #This are literal characters the lexer interprets them as they are
 
-t_ignore = ' \t' #Ignored characters
+t_ignore = ' \t\n' #Ignored characters
 
 #Regular Expression rules for simple tokens
 digit = r'[0-9]'
@@ -45,9 +45,10 @@ method = identifier + r'[(]' + r'[)]'
 
 
 #Rule for new lines
-def t_newLine(t):
-    r' \n+'
-    t.lexer.lineno+=len(t.value)
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
+
 
 reserved_words_map = { }
 for r in reserved:
@@ -160,7 +161,9 @@ print('Testing Lexer')
 #lexer.input('23.5423545')
 
 #data = 'UI.NEW{ Title : "Events"; Events : "fire"; Location : "Stefani";	SendTo : "All";};'
-data = 'TITLE:"Events";'
+#data = 'TITLE:"Events";'
+file = open('input.txt', 'r')
+data = file.read()
 
 print("Input: ", data)
 lexer.input(data)

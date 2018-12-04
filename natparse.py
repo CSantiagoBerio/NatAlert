@@ -29,37 +29,44 @@ names = {}
 #     '''string : STRING'''
 #     p[0] = p[1]
 
+# def p_init(p):
+#     '''expression : UI DOT INIT LParen RParen ENDLINE
+#                     | DB DOT INIT LParen RParen ENDLINE'''
+#     if(p[1] == 'UI'):
+#         createUI.start_ui()
+#     elif(p[1] == 'DB'):
+#         createUI.init_db()
 
-# def p_string_list(p):
-#     '''string_list : STRING COMMA string_list
-#                  | STRING'''
-#     if not isinstance(p[0], list):
-#         p[0] = list()
-#     p[0].append(p[1])
-#     if len(p) == 4:
-#         p[0] += p[3]
+def p_create_expression(p):
+    '''expression : UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE'''
+    # print("Parsing DONE")
+    settings = {
+        'Title': p[7],
+        'Event': ",".join(p[11]),
+        'Location': ",".join(p[15]),
+        'SendTo': ",".join(p[19])
+    }
+    createUI.set_settings(settings)
 
-def p_initUI(p):
-    '''expression : UI DOT INIT LParen RParen'''
-    createUI.start_ui()
+def p_string_list(p):
+    '''string_list : STRING COMMA string_list
+                 | STRING'''
+    if not isinstance(p[0], list):
+        p[0] = list()
+    p[0].append(p[1])
+    if len(p) == 4:
+        p[0] += p[3]
 
-def p_initDB(p):
-    '''expression : DB DOT INIT LParen RParen'''
+def p_initDB_expression(p):
+    '''expression : DB DOT INIT LParen RParen ENDLINE'''
     createUI.init_db()
 
-def p_create_event(p):
-  '''expression : IDENTIFIER DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON STRING ENDLINE LOCATION COLON STRING ENDLINE SENDTO COLON STRING ENDLINE RBrace ENDLINE'''
-  #print("Parsing DONE")
-  settings = {
-      'Title': p[5],
-      'Event': p[6],
-      'Location': p[7],
-      'SendTo': p[8]
-  }
-  createUI.set_settings(settings)
+def p_initUI_expression(p):
+    '''expression : UI DOT INIT LParen RParen ENDLINE'''
+    createUI.start_ui()
 
 def p_error(p):
-    print("Syntax error in input!")
+    print("Syntax error at: '%s'" % p.value)
 
 parser = yacc()
 
@@ -74,8 +81,10 @@ parser = yacc()
 print("Testing Parser. It should open a gui.")
 # s = '"yes","no"'
 # s = 'UI.NEW{ TITLE : "Events"; Events : "fire"; Location : "Stefani";	SendTo : "All";};'
-s = 'UI.NEW{TITLE:"Catastrophe";EVENTS:"fire";LOCATION:"Stefani";SENDTO:"All";};'
+#s = 'UI.NEW{TITLE:"Catastrophe";EVENTS:"fire";LOCATION:"Stefani";SENDTO:"All";};'
 #s = 'UI.INIT()'
+#s = '"new", "data"'
+#s = '"new"'
 
 #s = 'TITLE: "Events";'
 #s = 'LOCATION: "Fire";'
@@ -84,6 +93,9 @@ s = 'UI.NEW{TITLE:"Catastrophe";EVENTS:"fire";LOCATION:"Stefani";SENDTO:"All";};
 #s = 'UI.INITDB()'
 #s = 'SENDTO: "ALL";'
 
-print("Input",s)
-result = parser.parse(s)
+file = open("input.txt", "r")
+string = file.read()
+
+print("Input",string)
+result = parser.parse(string)
 print(result)
