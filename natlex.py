@@ -26,8 +26,6 @@ reserved = {'if':'IF' ,
 tokens = ['STRING','IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'ASSIGN', 'ENDLINE','COMMA', 'DOT',
           'COLON', 'LParen', 'RParen', 'LBrace', 'RBrace'] + list(reserved.values())
 
-#literals = "+-/*}{[]()"              #This are literal characters the lexer interprets them as they are
-
 t_ignore = ' \t\n' #Ignored characters
 
 #Regular Expression rules for simple tokens
@@ -36,8 +34,6 @@ number = r'[0 | 1-9][0-9]*'
 character = r'[a-zA-Z]'
 double = r'[-+]?[0-9]+(\.([0-9]+)?([eE][-+]?[0-9]+)?|[eE][-+]?[0-9]+)'
 string = r'"([^"\n]|(\\"))*"'
-#lefparen = r'('
-#rigparen = r')'
 identifier = r'' + character + r'(' + character + r'|' + number + r')*'
 declaration = r'' + identifier + r'= (' + number + r'|' + character + r')* ;'
 method = identifier + r'[(]' + r'[)]'
@@ -96,32 +92,12 @@ def t_error(t):
 t_ASSIGN = r'='
 t_ENDLINE = r';'
 t_COMMA = r','
-# t_QUOTE = r'"'
 t_COLON = r':'
 t_DOT = r'.'
 t_LParen = r'\('
 t_RParen = r'\)'
 t_LBrace = r'\{'
 t_RBrace = r'\}'
-
-#Literals
-
-# def t_lbrace(t):
-#     r'\{'
-#     t.type='{'
-#     return t
-# def t_rbrace(t):
-#     r'\}'
-#     t.type = '}'
-#     return t
-# def t_lparen(t):
-#     r'\('
-#     t.type = '('
-#     return t
-# def t_rparen(t):
-#     r'\)'
-#     t.type = ')'
-#     return t
 
 def t_lbox(t):
     r'\['
@@ -154,14 +130,6 @@ def t_COMMENT(t):               #definition of a comment, it will not return any
 
 lexer = lex(debug=0)
 
-print('Testing Lexer')
-#lexer.input('1258403484934038585320029483905808203842028-185308-2-428-')
-#lexer.input('x=12')
-#lexer.input('hvhj')
-#lexer.input('23.5423545')
-
-#data = 'UI.NEW{ Title : "Events"; Events : "fire"; Location : "Stefani";	SendTo : "All";};'
-#data = 'TITLE:"Events";'
 file = open('input.txt', 'r')
 data = file.read()
 
