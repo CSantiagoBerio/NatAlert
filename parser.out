@@ -4,7 +4,6 @@ Unused terminals:
 
     ASSIGN
     CHAR
-    COMMA
     COMMENT
     CREATE
     DECLARATION
@@ -12,6 +11,7 @@ Unused terminals:
     ELSE
     FOR
     GET
+    IDENTIFIER
     IF
     LET
     METHOD
@@ -24,103 +24,342 @@ Unused terminals:
 
 Grammar
 
-Rule 0     S' -> settitle
-Rule 1     settitle -> TITLE COLON STRING ENDLINE
-Rule 2     setevent -> EVENTS COLON STRING ENDLINE
-Rule 3     setlocation -> LOCATION COLON STRING ENDLINE
-Rule 4     setsendto -> SENDTO COLON STRING ENDLINE
-Rule 5     expression -> IDENTIFIER DOT NEW LBrace settitle setevent setlocation setsendto RBrace ENDLINE
-Rule 6     expression -> IDENTIFIER DOT INITUI LParen RParen
-Rule 7     expression -> IDENTIFIER DOT INITDB LParen RParen
+Rule 0     S' -> create
+Rule 1     create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+Rule 2     string_list -> STRING COMMA string_list
+Rule 3     string_list -> STRING
 
 Terminals, with rules where they appear
 
 ASSIGN               : 
 CHAR                 : 
-COLON                : 1 2 3 4
-COMMA                : 
+COLON                : 1 1 1 1
+COMMA                : 2
 COMMENT              : 
 CREATE               : 
+DB                   : 1
 DECLARATION          : 
-DOT                  : 5 6 7
+DOT                  : 1 1 1
 DOUBLE               : 
 ELSE                 : 
-ENDLINE              : 1 2 3 4 5
-EVENTS               : 2
+ENDLINE              : 1 1 1 1 1 1 1
+EVENTS               : 1
 FOR                  : 
 GET                  : 
-IDENTIFIER           : 5 6 7
+IDENTIFIER           : 
 IF                   : 
-INITDB               : 7
-INITUI               : 6
-LBrace               : 5
+INIT                 : 1 1
+LBrace               : 1
 LET                  : 
-LOCATION             : 3
-LParen               : 6 7
+LOCATION             : 1
+LParen               : 1 1
 METHOD               : 
-NEW                  : 5
+NEW                  : 1
 NOTIFY               : 
 NUMBER               : 
-RBrace               : 5
-RParen               : 6 7
-SENDTO               : 4
+RBrace               : 1
+RParen               : 1 1
+SENDTO               : 1
 SET                  : 
-STRING               : 1 2 3 4
+STRING               : 1 2 3
 THEN                 : 
 TITLE                : 1
 TYPE                 : 
+UI                   : 1 1
 WHILE                : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 
-setevent             : 5
-setlocation          : 5
-setsendto            : 5
-settitle             : 5 0
+create               : 0
+string_list          : 1 1 1 2
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . settitle
-    (1) settitle -> . TITLE COLON STRING ENDLINE
+    (0) S' -> . create
+    (1) create -> . DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
 
-    TITLE           shift and go to state 2
+    DB              shift and go to state 2
 
-    settitle                       shift and go to state 1
+    create                         shift and go to state 1
 
 state 1
 
-    (0) S' -> settitle .
+    (0) S' -> create .
 
 
 
 state 2
 
-    (1) settitle -> TITLE . COLON STRING ENDLINE
+    (1) create -> DB . DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
 
-    COLON           shift and go to state 3
+    DOT             shift and go to state 3
 
 
 state 3
 
-    (1) settitle -> TITLE COLON . STRING ENDLINE
+    (1) create -> DB DOT . INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
 
-    STRING          shift and go to state 4
+    INIT            shift and go to state 4
 
 
 state 4
 
-    (1) settitle -> TITLE COLON STRING . ENDLINE
+    (1) create -> DB DOT INIT . LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
 
-    ENDLINE         shift and go to state 5
+    LParen          shift and go to state 5
 
 
 state 5
 
-    (1) settitle -> TITLE COLON STRING ENDLINE .
+    (1) create -> DB DOT INIT LParen . RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
 
-    $end            reduce using rule 1 (settitle -> TITLE COLON STRING ENDLINE .)
+    RParen          shift and go to state 6
+
+
+state 6
+
+    (1) create -> DB DOT INIT LParen RParen . ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    ENDLINE         shift and go to state 7
+
+
+state 7
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE . UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    UI              shift and go to state 8
+
+
+state 8
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI . DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    DOT             shift and go to state 9
+
+
+state 9
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT . NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    NEW             shift and go to state 10
+
+
+state 10
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW . LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    LBrace          shift and go to state 11
+
+
+state 11
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace . TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    TITLE           shift and go to state 12
+
+
+state 12
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE . COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    COLON           shift and go to state 13
+
+
+state 13
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON . STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    STRING          shift and go to state 14
+
+
+state 14
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING . ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    ENDLINE         shift and go to state 15
+
+
+state 15
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE . EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    EVENTS          shift and go to state 16
+
+
+state 16
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS . COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    COLON           shift and go to state 17
+
+
+state 17
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON . string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+    (2) string_list -> . STRING COMMA string_list
+    (3) string_list -> . STRING
+
+    STRING          shift and go to state 18
+
+    string_list                    shift and go to state 19
+
+state 18
+
+    (2) string_list -> STRING . COMMA string_list
+    (3) string_list -> STRING .
+
+    COMMA           shift and go to state 20
+    ENDLINE         reduce using rule 3 (string_list -> STRING .)
+
+
+state 19
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list . ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    ENDLINE         shift and go to state 21
+
+
+state 20
+
+    (2) string_list -> STRING COMMA . string_list
+    (2) string_list -> . STRING COMMA string_list
+    (3) string_list -> . STRING
+
+    STRING          shift and go to state 18
+
+    string_list                    shift and go to state 22
+
+state 21
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE . LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    LOCATION        shift and go to state 23
+
+
+state 22
+
+    (2) string_list -> STRING COMMA string_list .
+
+    ENDLINE         reduce using rule 2 (string_list -> STRING COMMA string_list .)
+
+
+state 23
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION . COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    COLON           shift and go to state 24
+
+
+state 24
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON . string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+    (2) string_list -> . STRING COMMA string_list
+    (3) string_list -> . STRING
+
+    STRING          shift and go to state 18
+
+    string_list                    shift and go to state 25
+
+state 25
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list . ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    ENDLINE         shift and go to state 26
+
+
+state 26
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE . SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    SENDTO          shift and go to state 27
+
+
+state 27
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO . COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    COLON           shift and go to state 28
+
+
+state 28
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON . string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+    (2) string_list -> . STRING COMMA string_list
+    (3) string_list -> . STRING
+
+    STRING          shift and go to state 18
+
+    string_list                    shift and go to state 29
+
+state 29
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list . ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    ENDLINE         shift and go to state 30
+
+
+state 30
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE . RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    RBrace          shift and go to state 31
+
+
+state 31
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace . ENDLINE UI DOT INIT LParen RParen ENDLINE
+
+    ENDLINE         shift and go to state 32
+
+
+state 32
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE . UI DOT INIT LParen RParen ENDLINE
+
+    UI              shift and go to state 33
+
+
+state 33
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI . DOT INIT LParen RParen ENDLINE
+
+    DOT             shift and go to state 34
+
+
+state 34
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT . INIT LParen RParen ENDLINE
+
+    INIT            shift and go to state 35
+
+
+state 35
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT . LParen RParen ENDLINE
+
+    LParen          shift and go to state 36
+
+
+state 36
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen . RParen ENDLINE
+
+    RParen          shift and go to state 37
+
+
+state 37
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen . ENDLINE
+
+    ENDLINE         shift and go to state 38
+
+
+state 38
+
+    (1) create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE .
+
+    $end            reduce using rule 1 (create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE .)
 

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGN CHAR COLON COMMA COMMENT CREATE DECLARATION DOT DOUBLE ELSE ENDLINE EVENTS FOR GET IDENTIFIER IF INITDB INITUI LBrace LET LOCATION LParen METHOD NEW NOTIFY NUMBER RBrace RParen SENDTO SET STRING THEN TITLE TYPE WHILEsettitle : TITLE COLON STRING ENDLINEsetevent : EVENTS COLON STRING ENDLINEsetlocation : LOCATION COLON STRING ENDLINEsetsendto : SENDTO COLON STRING ENDLINEexpression : IDENTIFIER DOT NEW LBrace settitle setevent setlocation setsendto RBrace ENDLINEexpression : IDENTIFIER DOT INITUI LParen RParenexpression : IDENTIFIER DOT INITDB LParen RParen'
+_lr_signature = 'ASSIGN CHAR COLON COMMA COMMENT CREATE DB DECLARATION DOT DOUBLE ELSE ENDLINE EVENTS FOR GET IDENTIFIER IF INIT LBrace LET LOCATION LParen METHOD NEW NOTIFY NUMBER RBrace RParen SENDTO SET STRING THEN TITLE TYPE UI WHILEcreate : DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINEstring_list : STRING COMMA string_list\n                 | STRING'
     
-_lr_action_items = {'TITLE':([0,],[2,]),'$end':([1,5,],[0,-1,]),'COLON':([2,],[3,]),'STRING':([3,],[4,]),'ENDLINE':([4,],[5,]),}
+_lr_action_items = {'DB':([0,],[2,]),'$end':([1,38,],[0,-1,]),'DOT':([2,8,33,],[3,9,34,]),'INIT':([3,34,],[4,35,]),'LParen':([4,35,],[5,36,]),'RParen':([5,36,],[6,37,]),'ENDLINE':([6,14,18,19,22,25,29,31,37,],[7,15,-3,21,-2,26,30,32,38,]),'UI':([7,32,],[8,33,]),'NEW':([9,],[10,]),'LBrace':([10,],[11,]),'TITLE':([11,],[12,]),'COLON':([12,16,23,27,],[13,17,24,28,]),'STRING':([13,17,20,24,28,],[14,18,18,18,18,]),'EVENTS':([15,],[16,]),'COMMA':([18,],[20,]),'LOCATION':([21,],[23,]),'SENDTO':([26,],[27,]),'RBrace':([30,],[31,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'settitle':([0,],[1,]),}
+_lr_goto_items = {'create':([0,],[1,]),'string_list':([17,20,24,28,],[19,22,25,29,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,12 +26,8 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> settitle","S'",1,None,None,None),
-  ('settitle -> TITLE COLON STRING ENDLINE','settitle',4,'p_set_title','natparse.py',43),
-  ('setevent -> EVENTS COLON STRING ENDLINE','setevent',4,'p_set_events','natparse.py',47),
-  ('setlocation -> LOCATION COLON STRING ENDLINE','setlocation',4,'p_set_location','natparse.py',51),
-  ('setsendto -> SENDTO COLON STRING ENDLINE','setsendto',4,'p_set_sendto','natparse.py',55),
-  ('expression -> IDENTIFIER DOT NEW LBrace settitle setevent setlocation setsendto RBrace ENDLINE','expression',10,'p_create_event','natparse.py',59),
-  ('expression -> IDENTIFIER DOT INITUI LParen RParen','expression',5,'p_initUI','natparse.py',69),
-  ('expression -> IDENTIFIER DOT INITDB LParen RParen','expression',5,'p_initDB','natparse.py',73),
+  ("S' -> create","S'",1,None,None,None),
+  ('create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE','create',34,'p_create_expression','natparse.py',41),
+  ('string_list -> STRING COMMA string_list','string_list',3,'p_string_list','natparse.py',70),
+  ('string_list -> STRING','string_list',1,'p_string_list','natparse.py',71),
 ]

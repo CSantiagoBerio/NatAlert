@@ -122,6 +122,7 @@ def set_settings(ui_settings):
     global settings
     settings = ui_settings
     # UIClass().settings(ui_settings)
+    print("DONE SETTINGS")
 
 
 def start_ui():

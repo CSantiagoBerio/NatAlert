@@ -38,15 +38,34 @@ names = {}
 #         createUI.init_db()
 
 def p_create_expression(p):
-    '''expression : UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE'''
+    '''create : DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE'''
     # print("Parsing DONE")
+    createUI.init_db()
     settings = {
-        'Title': p[7],
-        'Event': ",".join(p[11]),
-        'Location': ",".join(p[15]),
-        'SendTo': ",".join(p[19])
+        'Title': p[13],
+        'Event': ",".join(p[17]),
+        'Location': ",".join(p[21]),
+        'SendTo': ",".join(p[25])
     }
     createUI.set_settings(settings)
+    createUI.start_ui()
+
+# def p_experssion(p):
+#     '''expression : initDB
+#                     | initUI
+#                     | create'''
+#     p[0] = p[1]
+#     print("DONE")
+#
+# def p_expression_list(p):
+#     '''expression_list : expression expression_list
+#                         | expression'''
+#     if(len(p) == 2):
+#         p[0] = p[1]
+#
+#     else:
+#         p[0] = p[1]
+#         p[0].append(p[3])
 
 def p_string_list(p):
     '''string_list : STRING COMMA string_list
@@ -57,13 +76,13 @@ def p_string_list(p):
     if len(p) == 4:
         p[0] += p[3]
 
-def p_initDB_expression(p):
-    '''expression : DB DOT INIT LParen RParen ENDLINE'''
-    createUI.init_db()
-
-def p_initUI_expression(p):
-    '''expression : UI DOT INIT LParen RParen ENDLINE'''
-    createUI.start_ui()
+# def p_initDB_expression(p):
+#     '''initDB : DB DOT INIT LParen RParen ENDLINE'''
+#     createUI.init_db()
+#
+# def p_initUI_expression(p):
+#     '''initUI : UI DOT INIT LParen RParen ENDLINE'''
+#     createUI.start_ui()
 
 def p_error(p):
     print("Syntax error at: '%s'" % p.value)
