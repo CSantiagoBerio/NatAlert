@@ -1,10 +1,11 @@
 from ply.yacc import *
 from natlex import tokens
 
-#import Tools
+# import Tools
 from UI import createUI
 
 names = {}
+
 
 # def p_string_list(p):
 #     '''string_list : STRING
@@ -50,6 +51,7 @@ def p_create_expression(p):
     createUI.set_settings(settings)
     createUI.start_ui()
 
+
 # def p_experssion(p):
 #     '''expression : initDB
 #                     | initUI
@@ -76,6 +78,7 @@ def p_string_list(p):
     if len(p) == 4:
         p[0] += p[3]
 
+
 # def p_initDB_expression(p):
 #     '''initDB : DB DOT INIT LParen RParen ENDLINE'''
 #     createUI.init_db()
@@ -87,8 +90,8 @@ def p_string_list(p):
 def p_error(p):
     print("Syntax error at: '%s'" % p.value)
 
-parser = yacc()
 
+parser = yacc()
 
 # while True:
 #     try:
@@ -100,21 +103,21 @@ parser = yacc()
 print("Testing Parser. It should open a gui.")
 # s = '"yes","no"'
 # s = 'UI.NEW{ TITLE : "Events"; Events : "fire"; Location : "Stefani";	SendTo : "All";};'
-#s = 'UI.NEW{TITLE:"Catastrophe";EVENTS:"fire";LOCATION:"Stefani";SENDTO:"All";};'
-#s = 'UI.INIT()'
-#s = '"new", "data"'
-#s = '"new"'
+# s = 'UI.NEW{TITLE:"Catastrophe";EVENTS:"fire";LOCATION:"Stefani";SENDTO:"All";};'
+# s = 'UI.INIT()'
+# s = '"new", "data"'
+# s = '"new"'
 
-#s = 'TITLE: "Events";'
-#s = 'LOCATION: "Fire";'
-#s = 'LOCATION: "Stefani";'
-#s = 'SENDTO: "ALL";'
-#s = 'UI.INITDB()'
-#s = 'SENDTO: "ALL";'
+# s = 'TITLE: "Events";'
+# s = 'LOCATION: "Fire";'
+# s = 'LOCATION: "Stefani";'
+# s = 'SENDTO: "ALL";'
+# s = 'UI.INITDB()'
+# s = 'SENDTO: "ALL";'
 
 file = open("input.txt", "r")
 string = file.read()
 
-print("Input",string)
+# print("Input",string)
 result = parser.parse(string)
-print(result)
+# print(result)
