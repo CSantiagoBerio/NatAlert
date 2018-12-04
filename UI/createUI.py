@@ -134,3 +134,6 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = UIClass()
     sys.exit(app.exec_())
+
+def init_db():
+    print("DB initiated")
