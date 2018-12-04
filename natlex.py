@@ -6,48 +6,42 @@ reserved = {'if':'IF' ,
             'else':'ELSE',
             'while':'WHILE',
             'for':'FOR',
-            'event':'EVENT',
             'create':'CREATE',
             'let' : 'LET',
             'set' : 'SET',
             'get' : 'GET',
             'notify' : 'NOTIFY',
             'type' : 'TYPE',
-            'location' : 'LOCATION',
-            'sendto' : 'SENDTO',
             'comment' : 'COMMENT',
-            'initUI' : 'INITUI',
-            'initDB' : 'INITDB'}
+            'INITUI' : 'INITUI',
+            'INITDB' : 'INITDB',
+            'NEW' : 'NEW',
+            'TITLE' : 'TITLE',
+            'EVENTS' : 'EVENTS',
+            'LOCATION' : 'LOCATION',
+            'SENDTO' : 'SENDTO'}
 
 #List of token names
-tokens = ['IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'ASSIGN', 'ENDLINE','COMMA', 'QUOTE', 'DOT',
-          'LParen', 'RParen'] + list(reserved.values())
+tokens = ['STRING','IDENTIFIER', 'NUMBER', 'DOUBLE', 'CHAR', 'DECLARATION', 'METHOD', 'ASSIGN', 'ENDLINE','COMMA', 'DOT',
+          'COLON', 'LParen', 'RParen', 'LBrace', 'RBrace'] + list(reserved.values())
 
 #literals = "+-/*}{[]()"              #This are literal characters the lexer interprets them as they are
+
+t_ignore = ' \t' #Ignored characters
 
 #Regular Expression rules for simple tokens
 digit = r'[0-9]'
 number = r'[0 | 1-9][0-9]*'
 character = r'[a-zA-Z]'
 double = r'[-+]?[0-9]+(\.([0-9]+)?([eE][-+]?[0-9]+)?|[eE][-+]?[0-9]+)'
+string = r'"([^"\n]|(\\"))*"'
 #lefparen = r'('
 #rigparen = r')'
 identifier = r'' + character + r'(' + character + r'|' + number + r')*'
 declaration = r'' + identifier + r'= (' + number + r'|' + character + r')* ;'
 method = identifier + r'[(]' + r'[)]'
 
-t_ASSIGN = r'='
-t_ENDLINE = r';'
-t_COMMA = r','
-t_QUOTE = r'"'
-t_DOT = r'.'
-t_LParen = r'\('
-t_RParen = r'\)'
 
-
-
-#Ignored characters
-t_ignore = ' \t'
 
 #Rule for new lines
 def t_newLine(t):
@@ -57,6 +51,12 @@ def t_newLine(t):
 reserved_words_map = { }
 for r in reserved:
     reserved_words_map[r.lower()] = r
+
+
+@TOKEN(string)
+def t_STRING(t):
+    t.type = reserved.get(t.value, 'STRING')
+    return t
 
 @TOKEN(identifier)
 def t_IDENTIFIER(t):
@@ -68,11 +68,9 @@ def t_DECLARATION(t):
     t.type = reserved.get(t.value,'DECLARATION')
     return t
 
-
 @TOKEN(method)
 def t_METHOD(t):
     return t
-
 
 @TOKEN(double)
 def t_DOUBLE(t):
@@ -93,17 +91,27 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
+t_ASSIGN = r'='
+t_ENDLINE = r';'
+t_COMMA = r','
+# t_QUOTE = r'"'
+t_COLON = r':'
+t_DOT = r'.'
+t_LParen = r'\('
+t_RParen = r'\)'
+t_LBrace = r'\{'
+t_RBrace = r'\}'
 
 #Literals
 
-def t_lbrace(t):
-    r'\{'
-    t.type='{'
-    return t
-def t_rbrace(t):
-    r'\}'
-    t.type = '}'
-    return t
+# def t_lbrace(t):
+#     r'\{'
+#     t.type='{'
+#     return t
+# def t_rbrace(t):
+#     r'\}'
+#     t.type = '}'
+#     return t
 # def t_lparen(t):
 #     r'\('
 #     t.type = '('
@@ -112,6 +120,7 @@ def t_rbrace(t):
 #     r'\)'
 #     t.type = ')'
 #     return t
+
 def t_lbox(t):
     r'\['
     t.type = '['
@@ -149,8 +158,8 @@ print('Testing Lexer')
 #lexer.input('hvhj')
 #lexer.input('23.5423545')
 
-data = 'initUI()' \
-       ' initDB()'
+#data = 'UI.NEW{ Title : "Events"; Events : "fire"; Location : "Stefani";	SendTo : "All";};'
+data = 'TITLE:"Events";'
 
 print("Input: ", data)
 lexer.input(data)

@@ -2,23 +2,21 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
+    ASSIGN
     CHAR
     COMMA
     COMMENT
     CREATE
     DECLARATION
-    DOT
     DOUBLE
     ELSE
-    ENDLINE
-    EVENT
     FOR
     GET
     IF
-    LOCATION
+    LET
     METHOD
     NOTIFY
-    SENDTO
+    NUMBER
     SET
     THEN
     TYPE
@@ -26,153 +24,103 @@ Unused terminals:
 
 Grammar
 
-Rule 0     S' -> expression
-Rule 1     expression -> NUMBER
-Rule 2     expression -> QUOTE expression QUOTE
-Rule 3     declaration -> LET IDENTIFIER ASSIGN expression
-Rule 4     expression -> INITUI LParen RParen
-Rule 5     expression -> INITDB LParen RParen
+Rule 0     S' -> settitle
+Rule 1     settitle -> TITLE COLON STRING ENDLINE
+Rule 2     setevent -> EVENTS COLON STRING ENDLINE
+Rule 3     setlocation -> LOCATION COLON STRING ENDLINE
+Rule 4     setsendto -> SENDTO COLON STRING ENDLINE
+Rule 5     expression -> IDENTIFIER DOT NEW LBrace settitle setevent setlocation setsendto RBrace ENDLINE
+Rule 6     expression -> IDENTIFIER DOT INITUI LParen RParen
+Rule 7     expression -> IDENTIFIER DOT INITDB LParen RParen
 
 Terminals, with rules where they appear
 
-ASSIGN               : 3
+ASSIGN               : 
 CHAR                 : 
+COLON                : 1 2 3 4
 COMMA                : 
 COMMENT              : 
 CREATE               : 
 DECLARATION          : 
-DOT                  : 
+DOT                  : 5 6 7
 DOUBLE               : 
 ELSE                 : 
-ENDLINE              : 
-EVENT                : 
+ENDLINE              : 1 2 3 4 5
+EVENTS               : 2
 FOR                  : 
 GET                  : 
-IDENTIFIER           : 3
+IDENTIFIER           : 5 6 7
 IF                   : 
-INITDB               : 5
-INITUI               : 4
-LET                  : 3
-LOCATION             : 
-LParen               : 4 5
+INITDB               : 7
+INITUI               : 6
+LBrace               : 5
+LET                  : 
+LOCATION             : 3
+LParen               : 6 7
 METHOD               : 
+NEW                  : 5
 NOTIFY               : 
-NUMBER               : 1
-QUOTE                : 2 2
-RParen               : 4 5
-SENDTO               : 
+NUMBER               : 
+RBrace               : 5
+RParen               : 6 7
+SENDTO               : 4
 SET                  : 
+STRING               : 1 2 3 4
 THEN                 : 
+TITLE                : 1
 TYPE                 : 
 WHILE                : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-declaration          : 
-expression           : 2 3 0
+expression           : 
+setevent             : 5
+setlocation          : 5
+setsendto            : 5
+settitle             : 5 0
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . expression
-    (1) expression -> . NUMBER
-    (2) expression -> . QUOTE expression QUOTE
-    (4) expression -> . INITUI LParen RParen
-    (5) expression -> . INITDB LParen RParen
+    (0) S' -> . settitle
+    (1) settitle -> . TITLE COLON STRING ENDLINE
 
-    NUMBER          shift and go to state 2
-    QUOTE           shift and go to state 3
-    INITUI          shift and go to state 4
-    INITDB          shift and go to state 5
+    TITLE           shift and go to state 2
 
-    expression                     shift and go to state 1
+    settitle                       shift and go to state 1
 
 state 1
 
-    (0) S' -> expression .
+    (0) S' -> settitle .
 
 
 
 state 2
 
-    (1) expression -> NUMBER .
+    (1) settitle -> TITLE . COLON STRING ENDLINE
 
-    $end            reduce using rule 1 (expression -> NUMBER .)
-    QUOTE           reduce using rule 1 (expression -> NUMBER .)
+    COLON           shift and go to state 3
 
 
 state 3
 
-    (2) expression -> QUOTE . expression QUOTE
-    (1) expression -> . NUMBER
-    (2) expression -> . QUOTE expression QUOTE
-    (4) expression -> . INITUI LParen RParen
-    (5) expression -> . INITDB LParen RParen
+    (1) settitle -> TITLE COLON . STRING ENDLINE
 
-    NUMBER          shift and go to state 2
-    QUOTE           shift and go to state 3
-    INITUI          shift and go to state 4
-    INITDB          shift and go to state 5
+    STRING          shift and go to state 4
 
-    expression                     shift and go to state 6
 
 state 4
 
-    (4) expression -> INITUI . LParen RParen
+    (1) settitle -> TITLE COLON STRING . ENDLINE
 
-    LParen          shift and go to state 7
+    ENDLINE         shift and go to state 5
 
 
 state 5
 
-    (5) expression -> INITDB . LParen RParen
+    (1) settitle -> TITLE COLON STRING ENDLINE .
 
-    LParen          shift and go to state 8
-
-
-state 6
-
-    (2) expression -> QUOTE expression . QUOTE
-
-    QUOTE           shift and go to state 9
-
-
-state 7
-
-    (4) expression -> INITUI LParen . RParen
-
-    RParen          shift and go to state 10
-
-
-state 8
-
-    (5) expression -> INITDB LParen . RParen
-
-    RParen          shift and go to state 11
-
-
-state 9
-
-    (2) expression -> QUOTE expression QUOTE .
-
-    $end            reduce using rule 2 (expression -> QUOTE expression QUOTE .)
-    QUOTE           reduce using rule 2 (expression -> QUOTE expression QUOTE .)
-
-
-state 10
-
-    (4) expression -> INITUI LParen RParen .
-
-    $end            reduce using rule 4 (expression -> INITUI LParen RParen .)
-    QUOTE           reduce using rule 4 (expression -> INITUI LParen RParen .)
-
-
-state 11
-
-    (5) expression -> INITDB LParen RParen .
-
-    $end            reduce using rule 5 (expression -> INITDB LParen RParen .)
-    QUOTE           reduce using rule 5 (expression -> INITDB LParen RParen .)
+    $end            reduce using rule 1 (settitle -> TITLE COLON STRING ENDLINE .)
 

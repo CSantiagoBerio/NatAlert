@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGN CHAR COMMA COMMENT CREATE DECLARATION DOT DOUBLE ELSE ENDLINE EVENT FOR GET IDENTIFIER IF INITDB INITUI LET LOCATION LParen METHOD NOTIFY NUMBER QUOTE RParen SENDTO SET THEN TYPE WHILEexpression : NUMBERexpression : QUOTE expression QUOTEdeclaration : LET IDENTIFIER ASSIGN expressionexpression : INITUI LParen RParenexpression : INITDB LParen RParen'
+_lr_signature = 'ASSIGN CHAR COLON COMMA COMMENT CREATE DECLARATION DOT DOUBLE ELSE ENDLINE EVENTS FOR GET IDENTIFIER IF INITDB INITUI LBrace LET LOCATION LParen METHOD NEW NOTIFY NUMBER RBrace RParen SENDTO SET STRING THEN TITLE TYPE WHILEsettitle : TITLE COLON STRING ENDLINEsetevent : EVENTS COLON STRING ENDLINEsetlocation : LOCATION COLON STRING ENDLINEsetsendto : SENDTO COLON STRING ENDLINEexpression : IDENTIFIER DOT NEW LBrace settitle setevent setlocation setsendto RBrace ENDLINEexpression : IDENTIFIER DOT INITUI LParen RParenexpression : IDENTIFIER DOT INITDB LParen RParen'
     
-_lr_action_items = {'NUMBER':([0,3,],[2,2,]),'QUOTE':([0,2,3,6,9,10,11,],[3,-1,3,9,-2,-4,-5,]),'INITUI':([0,3,],[4,4,]),'INITDB':([0,3,],[5,5,]),'$end':([1,2,9,10,11,],[0,-1,-2,-4,-5,]),'LParen':([4,5,],[7,8,]),'RParen':([7,8,],[10,11,]),}
+_lr_action_items = {'TITLE':([0,],[2,]),'$end':([1,5,],[0,-1,]),'COLON':([2,],[3,]),'STRING':([3,],[4,]),'ENDLINE':([4,],[5,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'expression':([0,3,],[1,6,]),}
+_lr_goto_items = {'settitle':([0,],[1,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,10 +26,12 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> expression","S'",1,None,None,None),
-  ('expression -> NUMBER','expression',1,'p_expression_number','natparse.py',10),
-  ('expression -> QUOTE expression QUOTE','expression',3,'p_expression_string','natparse.py',14),
-  ('declaration -> LET IDENTIFIER ASSIGN expression','declaration',4,'p_declaration_expression','natparse.py',22),
-  ('expression -> INITUI LParen RParen','expression',3,'p_initUI','natparse.py',26),
-  ('expression -> INITDB LParen RParen','expression',3,'p_initDB','natparse.py',30),
+  ("S' -> settitle","S'",1,None,None,None),
+  ('settitle -> TITLE COLON STRING ENDLINE','settitle',4,'p_set_title','natparse.py',43),
+  ('setevent -> EVENTS COLON STRING ENDLINE','setevent',4,'p_set_events','natparse.py',47),
+  ('setlocation -> LOCATION COLON STRING ENDLINE','setlocation',4,'p_set_location','natparse.py',51),
+  ('setsendto -> SENDTO COLON STRING ENDLINE','setsendto',4,'p_set_sendto','natparse.py',55),
+  ('expression -> IDENTIFIER DOT NEW LBrace settitle setevent setlocation setsendto RBrace ENDLINE','expression',10,'p_create_event','natparse.py',59),
+  ('expression -> IDENTIFIER DOT INITUI LParen RParen','expression',5,'p_initUI','natparse.py',69),
+  ('expression -> IDENTIFIER DOT INITDB LParen RParen','expression',5,'p_initDB','natparse.py',73),
 ]
