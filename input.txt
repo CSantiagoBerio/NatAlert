@@ -1,8 +1,0 @@
-DB.INIT();
-UI.NEW{
-	TITLE: "Event";
-	EVENTS: "fire", "tsunami", "shooting", "flood", "masacre";
-	LOCATION: "Stefani", "Luchetti";
-	SENDTO: "All students", "All personnel", "fernando, raul, alejandra";
-};
-UI.INIT();

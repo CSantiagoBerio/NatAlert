@@ -1,8 +1,8 @@
 from ply.yacc import *
-from natlex import tokens
 
 # import Tools
 from UI import createUI
+from  PLY.natlex import tokens
 
 names = {}
 
@@ -37,6 +37,6 @@ parser = yacc()
 
 print("Testing Parser. It should open a gui.")
 
-file = open("input.txt", "r")
+file = open("PLY/input.txt", "r")
 string = file.read()
 result = parser.parse(string)

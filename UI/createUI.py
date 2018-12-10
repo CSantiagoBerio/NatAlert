@@ -17,7 +17,7 @@ class UIClass(QDialog):
     def __init__(self):
         super(UIClass, self).__init__()
         """" Loads the .ui template for the UI Design """
-        loadUi('event-handler.ui', self)
+        loadUi('UI/event-handler.ui', self)
         global settings
         # settings = {
         #     'Title': 'Event Box',
@@ -87,7 +87,6 @@ class UIClass(QDialog):
             'Data': self.commentBox.toPlainText(),
             'Employees': employees
         }
-        print(data)
         response = db.child('NatAlert').push(data)
         if response:
             print(response)
@@ -99,23 +98,28 @@ class UIClass(QDialog):
 
     def init_DB(self):
         config = {
-            'apiKey': "AIzaSyAcIg6EsfC5EKCF-thwhiOFO1XNDkFJDDQ",
-            'authDomain': "natalert-e328e.firebaseapp.com",
-            'databaseURL': "https://natalert-e328e.firebaseio.com",
-            'projectId': "natalert-e328e",
-            'storageBucket': "natalert-e328e.appspot.com",
-            'messagingSenderId': "250353217129",
-            "serviceAccount": "natalert-e328e-firebase-adminsdk-9qkk7-cd5290dd8c.json"
-
+            'apiKey': "AIzaSyBs0LtxeryvUfyKgbTijv70YSqA_B7Cjfw",
+            'authDomain': "project-f7931.firebaseapp.com",
+            'databaseURL': "https://project-f7931.firebaseio.com",
+            'projectId': "project-f7931",
+            'storageBucket': "project-f7931.appspot.com",
+            'messagingSenderId': "967788269453",
+            "serviceAccount": "json/project-f7931-firebase-adminsdk-nma4s-deffd903d3.json"
         }
+
+        # config = {
+        #     'apiKey': "AIzaSyAcIg6EsfC5EKCF-thwhiOFO1XNDkFJDDQ",
+        #     'authDomain': "natalert-e328e.firebaseapp.com",
+        #     'databaseURL': "https://natalert-e328e.firebaseio.com",
+        #     'projectId': "natalert-e328e",
+        #     'storageBucket': "natalert-e328e.appspot.com",
+        #     'messagingSenderId': "250353217129",
+        #     "serviceAccount": "json/natalert-e328e-firebase-adminsdk-9qkk7-cd5290dd8c.json"
+        # }
         global firebase
         firebase = pyrebase.initialize_app(config)
-        auth = firebase.auth()
-        global user
-        user = auth.sign_in_with_email_and_password('christian.santiago23@upr.edu', 'Machluan0212')
         global db
         db = firebase.database()
-        # print(user['idToken'])
 
     def settings(self, ui_settings):
         global settings

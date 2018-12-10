@@ -1,0 +1,8 @@
+DB.INIT();
+UI.NEW{
+	TITLE: "Event Title";
+	EVENTS: "Fire", "Power Outage", "Earthquake", "Flood" ;
+	LOCATION: "Finance Department", "IT Department", "Administration Bldg.";
+	SENDTO: "Finance Personnel", "IT Personnel", "Administration Bldg. Personnel", " NONE";
+};
+UI.INIT();

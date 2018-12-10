@@ -27,7 +27,7 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> create","S'",1,None,None,None),
-  ('create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE','create',34,'p_create_expression','natparse.py',41),
-  ('string_list -> STRING COMMA string_list','string_list',3,'p_string_list','natparse.py',70),
-  ('string_list -> STRING','string_list',1,'p_string_list','natparse.py',71),
+  ('create -> DB DOT INIT LParen RParen ENDLINE UI DOT NEW LBrace TITLE COLON STRING ENDLINE EVENTS COLON string_list ENDLINE LOCATION COLON string_list ENDLINE SENDTO COLON string_list ENDLINE RBrace ENDLINE UI DOT INIT LParen RParen ENDLINE','create',34,'p_create_expression','natparse.py',10),
+  ('string_list -> STRING COMMA string_list','string_list',3,'p_string_list','natparse.py',23),
+  ('string_list -> STRING','string_list',1,'p_string_list','natparse.py',24),
 ]
