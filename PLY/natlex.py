@@ -152,7 +152,7 @@ lexer = lex(debug=0)
 
 
 print('Testing Lexer')
-file = open('PLY/input.txt', 'r')
+file = open('input.txt', 'r')
 data = file.read()
 
 # print("Input: ", data)

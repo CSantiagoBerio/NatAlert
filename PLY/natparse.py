@@ -2,7 +2,8 @@ from ply.yacc import *
 
 # import Tools
 from UI import createUI
-from  PLY.natlex import tokens
+from PLY.natlex import *
+
 
 names = {}
 
@@ -34,9 +35,7 @@ def p_error(p):
 
 
 parser = yacc()
-
 print("Testing Parser. It should open a gui.")
-
-file = open("PLY/input.txt", "r")
+file = open("input.txt", "r")
 string = file.read()
 result = parser.parse(string)

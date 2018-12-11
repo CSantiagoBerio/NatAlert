@@ -4,6 +4,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 import pyrebase
+import os
 
 global firebase
 global user
@@ -17,7 +18,7 @@ class UIClass(QDialog):
     def __init__(self):
         super(UIClass, self).__init__()
         """" Loads the .ui template for the UI Design """
-        loadUi('UI/event-handler.ui', self)
+        loadUi('../UI/event-gui.ui', self)
         global settings
         # settings = {
         #     'Title': 'Event Box',
@@ -76,10 +77,6 @@ class UIClass(QDialog):
     """ Submits the data selected in the UI, to the database using a dictionary"""
 
     def submitData(self):
-        print(str(self.eventComboBox.currentText()))
-        print(str(self.locationBox.currentText()))
-        print(str(self.sendToBox.currentText()))
-        print(str(self.commentBox.toPlainText()))
         employees = self.sendToBox.currentText().split(',')
         data = {
             'Event': self.eventComboBox.currentText(),
@@ -95,17 +92,25 @@ class UIClass(QDialog):
             # print(db.child('NatAlert').get().val())
 
     """" Initializes Database """
-
     def init_DB(self):
         config = {
-            'apiKey': "AIzaSyBs0LtxeryvUfyKgbTijv70YSqA_B7Cjfw",
-            'authDomain': "project-f7931.firebaseapp.com",
-            'databaseURL': "https://project-f7931.firebaseio.com",
-            'projectId': "project-f7931",
-            'storageBucket': "project-f7931.appspot.com",
-            'messagingSenderId': "967788269453",
-            "serviceAccount": "json/project-f7931-firebase-adminsdk-nma4s-deffd903d3.json"
+            'apiKey': "AIzaSyCxz7dDDX4KVUiNPAEDdFtrf26BBWQEKis",
+            'authDomain': "video-tutorial-11b93.firebaseapp.com",
+            'databaseURL': "https://video-tutorial-11b93.firebaseio.com",
+            'projectId': "video-tutorial-11b93",
+            'storageBucket': "video-tutorial-11b93.appspot.com",
+            'messagingSenderId': "49877822446",
+            'serviceAccount': "../json/video-tutorial-11b93-firebase-adminsdk-d6prw-86ab436a0a.json"
         }
+        # config = {
+        #     'apiKey': "AIzaSyBs0LtxeryvUfyKgbTijv70YSqA_B7Cjfw",
+        #     'authDomain': "project-f7931.firebaseapp.com",
+        #     'databaseURL': "https://project-f7931.firebaseio.com",
+        #     'projectId': "project-f7931",
+        #     'storageBucket': "project-f7931.appspot.com",
+        #     'messagingSenderId': "967788269453",
+        #     "serviceAccount": "json/project-f7931-firebase-adminsdk-nma4s-deffd903d3.json"
+        # }
 
         # config = {
         #     'apiKey': "AIzaSyAcIg6EsfC5EKCF-thwhiOFO1XNDkFJDDQ",
