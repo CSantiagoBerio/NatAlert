@@ -539,7 +539,7 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\csant\Google Drive\Workshop\NatAlert\src\styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! C:\Users\csant\Desktop\NatAlert\src\styles.css */"./src/styles.css");
 
 
 /***/ })
